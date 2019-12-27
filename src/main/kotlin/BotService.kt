@@ -13,4 +13,12 @@ interface BotService {
         @Field("parse_mode") parseMode: String
     ): SendMessageResponse
 
+    @POST("/bot$PUSH_NOTIFICATION_BOT_TOKEN/sendMessage")
+    @FormUrlEncoded
+    suspend fun sendPushNotification(
+        @Field("chat_id") chatId: String,
+        @Field("text") text: String,
+        @Field("parse_mode") parseMode: String
+    )
+
 }
