@@ -13,19 +13,33 @@ const val PUSH_NOTIFICATION_BOT_TOKEN = "774481227:AAFz6YCHq2_91DOYpQ7gQZoY13Ja0
 fun main(args: Array<String>) = runBlocking<Unit> {
     // args[0] - bot type
     when (args[0]) {
-        "rollout_build" -> {
+        "rollout_build_meetville" -> {
             // args[1] - android build version
             // args[2] - android build description
             val version = args[1]
             var description = ""
             try {
                 description = args[2]
-                sendRolloutNotification(version, description)
+                sendRolloutMeetvilleNotification(version, description)
             } catch (ex: Throwable) {
-                sendRolloutNotification(version, description)
+                sendRolloutMeetvilleNotification(version, description)
             }
             exitProcess(0)
         }
+        "rollout_build_good_book" -> {
+            // args[1] - android build version
+            // args[2] - android build description
+            val version = args[1]
+            var description = ""
+            try {
+                description = args[2]
+                sendRolloutGoodBookNotification(version, description)
+            } catch (ex: Throwable) {
+                sendRolloutGoodBookNotification(version, description)
+            }
+            exitProcess(0)
+        }
+
         "push_notification" -> {
             // args[1] - commiter name
             // args[2] - branch name
@@ -46,9 +60,15 @@ suspend fun sendPushNotification(commiterName: String, branchName: String, commi
     getBotService().sendPushNotification(chatId.toString(), text, PARSE_MODE)
 }
 
-suspend fun sendRolloutNotification(version: String, description: String) {
+suspend fun sendRolloutMeetvilleNotification(version: String, description: String) {
     val chatId = -346458703
-    val text = "Билд залит! *Версия $version*\n_${description}_"
+    val text = "Meetville билд залит! *Версия $version*\n_${description}_"
+    getBotService().sendRolloutNotification(chatId.toString(), text, PARSE_MODE)
+}
+
+suspend fun sendRolloutGoodBookNotification(version: String, description: String) {
+    val chatId = -346458703
+    val text = "GoodBook билд залит! *Версия $version*\n_${description}_"
     getBotService().sendRolloutNotification(chatId.toString(), text, PARSE_MODE)
 }
 
